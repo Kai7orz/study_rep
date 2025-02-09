@@ -1,0 +1,15 @@
+:root {
+    --light-yellow: #fff5d7; /* caseの色 */
+ }
+ 
+ /* 昆虫を並べる箱 */
+ .case {
+    background-color: var(--light-yellow);
+    /* 箱の陰 */
+    box-shadow: 1rem 1rem 2rem var(--dark);
+ }
+ 
+ .insect-img {
+    /* 画像が浮いて見えるように陰を付ける */
+    filter: drop-shadow(2rem .5rem .75rem var(--dark)); 
+ }
