@@ -110,7 +110,7 @@ const pictureDictionary = {
     "boom":"https://cdn.pixabay.com/photo/2016/04/12/21/17/explosion-1325471_1280.jpg",
     "buzz":"https://cdn.pixabay.com/photo/2020/02/13/10/29/bees-4845211_1280.jpg",
     "caw":"https://cdn.pixabay.com/photo/2017/02/16/11/13/bird-2071185_1280.jpg",
-    "chatter":"https://cdn.pixabay.com/photo/2014/07/25/08/55/bar-401546_1280.jpg",
+    "chatter":"https://cdn.pixabay.com/photo/2017/02/16/11/13/bird-2071185_1280.jpg",
     "chant":"https://cdn.pixabay.com/photo/2016/07/19/07/43/parchment-1527650__340.jpg",
     "clatter":"https://cdn.pixabay.com/photo/2020/02/06/19/01/clutter-4825256_1280.jpg",
     "clunk":"https://cdn.pixabay.com/photo/2017/01/10/03/06/steel-1968194_1280.jpg",
@@ -174,7 +174,6 @@ function makeCards(words){
 function makeBottomCards(){
     let eleCounter = 0;
 
-
     let finalContainer = document.createElement("div");
 
     while(1){
@@ -184,7 +183,7 @@ function makeBottomCards(){
 
         let tempContainer = document.createElement("div");
       
-        tempContainer.classList.add(emoColor[emotions[eleCounter].emotion]);
+        tempContainer.classList.add(emoColor[emotions[eleCounter].emotion],"p-5",);
         let sentenceGroup = document.createElement("div");
         let emoHeader = document.createElement("h2");
         let sen = document.createElement("p1");
@@ -192,6 +191,8 @@ function makeBottomCards(){
         let cRow = document.createElement("div");
         cardsHolder.classList.add("container");
         cRow.classList.add("row");
+
+
         
 
         emoHeader.innerHTML = emotions[eleCounter].emotion;
@@ -206,12 +207,13 @@ function makeBottomCards(){
         tempDiv.append(sen);
 
         cRow.append(tempDiv);
+        
         for( ono of emotions[eleCounter].getOnomatopoeiaWords()){
         //擬音語含むword配列を取得しfor文で回していく
         //音ごとにカードを作成する必要がある
         let tempCard = document.createElement("div");
         //tempCard.classList.add("d-flex","justify-content-between","w-75","mx-auto","my-3","bg-white");
-        tempCard.classList.add("col-md-5","col-10","w-50","mx-auto","my-2","bg-white");
+        tempCard.classList.add("col-md-5","col-10","mr-auto","ml-5","w-50","my-2","bg-white");
 
         let oneCard = document.createElement("div");
         oneCard.classList.add("d-flex","justify-content-between","align-items-center","p-3");
@@ -248,14 +250,11 @@ function makeBottomCards(){
         return finalContainer;
 }
 
-
 let emoName = [];
 
 for( emo of emotions){
     emoName.push(emo.emotion);
 }
-
-
 
 
 let emoContainer = document.createElement("div");
@@ -290,7 +289,6 @@ while(1){
     emoFace.innerHTML = emoFaces[emoName[myCounter]];
     emoSentence.innerHTML = emotions[myCounter].description;
 
-
     mycard.append(eName);
     mycard.append(emoFace);
     mycard.append(emoSentence);
@@ -300,8 +298,6 @@ while(1){
     myCounter++;
     }
 
-
-    
     if(myCounter >= emotions.length){
         break;
     }
