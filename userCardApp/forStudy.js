@@ -1,3 +1,9 @@
+//親要素の文字を，より小さな領域の子要素の始点の位置に合わせる
+//方法について調べる
+
+
+
+
 class Word{
     constructor(word, defintion, pictureUrl){
         this.word = word;
@@ -130,24 +136,38 @@ const emotions = [
 ];
 
 
-//parent.append(makeCards(this.getOnomatopoeiaWords()));
-     //makeCardsは感情のカードをまとめて<div>に入れて返す関数
-     //呼び出し側では引数のwordオブジェクトのword,deifinition,imgをよびだして配置して，divでまとめればいいだけ
+/*
+1つのwordクラスに含まれる，すべての擬音に対応する説明カードを作成
+    入力:擬音を含むWordクラスの配列
+*/ 
+
 function makeCards(words){
-    
+//今使ってない
+
+    //作成した複数のカードを保持すためのコンテナ
     let cardsContainer = document.createElement("div");
-    let card = document.createElement("div");
+    let cardsContainerRow = document.createElement("div");
+    cardsContainer.classList.add("container");
+    cardsContainerRow.classList.add("row");
+
+
+    //カード1枚
+
 
     for(w in words){
-        card.classList.add("bg-white","d-flex","justify-content-between","m-2");
+        let card = document.createElement("div");
+        //        card.classList.add("bg-white","d-flex","justify-content-between","m-2");
+        card.classList.add("col-md-4","col-12","m-2");
         let sentence = document.createElement("p");
         sentence.innerHTML = w.word + "<br>" + w.defintion;
         let conImg = document.createElement("img");
         conImg.src = w.pictureUrl;
         card.append(sentence);
         card.append(conImg);
+        cardsContainerRow.append(card);        
     }
-    cardsContainer.append(card);
+
+    cardsContainer.append(cardsContainerRow);
     return cardsContainer;
 }
 
@@ -169,26 +189,38 @@ function makeBottomCards(){
         let emoHeader = document.createElement("h2");
         let sen = document.createElement("p1");
         let cardsHolder = document.createElement("div");
+        let cRow = document.createElement("div");
+        cardsHolder.classList.add("container");
+        cRow.classList.add("row");
         
 
         emoHeader.innerHTML = emotions[eleCounter].emotion;
         sen.innerHTML = emotions[eleCounter].description;
 
-        
-        tempContainer.append(emoHeader);
-        tempContainer.append(sentenceGroup);
- 
+        //tempContainer.append(emoHeader);
+        //tempContainer.append(sentenceGroup);
 
+        let tempDiv = document.createElement("div");
+        tempDiv.classList.add("d-flex","flex-column","text-white","mb-3","w-100");
+        tempDiv.append(emoHeader);
+        tempDiv.append(sen);
+
+        cRow.append(tempDiv);
         for( ono of emotions[eleCounter].getOnomatopoeiaWords()){
         //擬音語含むword配列を取得しfor文で回していく
         //音ごとにカードを作成する必要がある
         let tempCard = document.createElement("div");
-        tempCard.classList.add("d-flex","justify-content-between","w-75","mx-auto","my-3","bg-white");
+        //tempCard.classList.add("d-flex","justify-content-between","w-75","mx-auto","my-3","bg-white");
+        tempCard.classList.add("col-md-5","col-10","w-50","mx-auto","my-2","bg-white");
+
+        let oneCard = document.createElement("div");
+        oneCard.classList.add("d-flex","justify-content-between","align-items-center","p-3");
+
         let tempImg = document.createElement("img");
         tempImg.src = ono.pictureUrl;
-        tempImg.classList.add("h-25","w-25");
+        tempImg.classList.add("h-25","w-25","m-1");
         let tempSentenceGroup = document.createElement("div");
-        let tempHeader = document.createElement("h2");
+        let tempHeader = document.createElement("h3");
         let tempSentence = document.createElement("p");
         tempHeader.innerHTML = ono.word;
         tempSentence.innerHTML = ono.defintion;
@@ -196,12 +228,15 @@ function makeBottomCards(){
         tempSentenceGroup.append(tempHeader);
         tempSentenceGroup.append(tempSentence);
 
-        tempCard.append(tempSentenceGroup);
-        tempCard.append(tempImg);
+        oneCard.append(tempSentenceGroup);
+        oneCard.append(tempImg);
 
-        cardsHolder.append(tempCard);
+        tempCard.append(oneCard);
+
+        cRow.append(tempCard);
         }
 
+        cardsHolder.append(cRow);
         let myId = "sec"+emotions[eleCounter].emotion;
         tempContainer.setAttribute("id","sec"+ emotions[eleCounter].emotion);
         eleCounter++;
