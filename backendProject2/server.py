@@ -22,7 +22,7 @@ while True:
         while True:
             data = connection.recv(16)
             data_str = data.decode('utf-8')
-            print('Recieved' + data_str)
+            print('Recieved ' + data_str)
             if data:
                 response = 'Processing'+data_str
 
