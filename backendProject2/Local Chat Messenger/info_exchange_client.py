@@ -7,7 +7,7 @@ from faker import Faker
 
 fake = Faker()
 
-sock = socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
 
 server_address = '/tmp/server_address'
 client_address = '/tmp/client_address'
