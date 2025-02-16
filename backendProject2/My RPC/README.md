@@ -16,22 +16,23 @@ node rpc-client.js
 ### クライアント側
 
 #### method
-method: 実行したいメソッド名を指定(floor,nroot,reverse,validAnagram,sort)
+method: 実行したいメソッド名を指定<br>
+(floor,nroot,reverse,validAnagram,sort)
 
 ##### param
-各metod に対する引数を指定
-floor: float
-nroot: int,int
-reverse: str
-validAnagram: str,str
-sort: str,str,...
+各metod に対する引数を指定<br>
+floor: float<br>
+nroot: int,int<br>
+reverse: str<br>
+validAnagram: str,str<br>
+sort: str,str,...<br>
 
 ##### param_types
-floor: float
-nroot: [int,int]
-reverse: str
-validAnagram: [str,str]
-sort: [str,str,...]
+floor: float<br>
+nroot: [int,int]<br>
+reverse: str<br>
+validAnagram: [str,str]<br>
+sort: [str,str,...]<br>
 
 ## 実際の動作(写真)
 
