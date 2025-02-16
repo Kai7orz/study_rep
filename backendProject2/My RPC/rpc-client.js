@@ -62,12 +62,11 @@ async function main(){
   const client = require('net').createConnection('/tmp/server_address');
   m = await userInput()
   
-  console.log(m);
+
   client.write(m, () => {
     console.log("送信完了");
 });
 
-  console.log(m);
 
   client.on('data', data => {
     console.log('Received: ' + data)
