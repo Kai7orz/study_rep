@@ -13,8 +13,8 @@ python3 rpc-server.py
 node rpc-client.js
 ```
 
-![image](/img/result_floor.png)
-![image](/img/result_nroot.png)
-![image](/img/result_reverse.png)
-![image](/img/result_validAnagram.png)
-![image](/img/result_sort.png)
+![image](./img/result_floor.png)
+![image](./img/result_nroot.png)
+![image](./img/result_reverse.png)
+![image](./img/result_validAnagram.png)
+![image](./img/result_sort.png)
