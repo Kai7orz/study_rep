@@ -1,29 +1,25 @@
 import socket 
-import sys
-sock = socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
 
-server_address = '/tmp/socket_file'
-print('connecting to {}'.format(server_address))
+sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
+server_address = input("type in the server's address to connect to:")
+server_port = 9001
+
+address = ''
+port = 9050
+message = b'Message to send to the client'
+
+sock.bind((address,port))
 try:
-    sock.connect(server_address)
-except socket.error as err:
-    print(err)
-    sys.exit(1)
-try:
-    message =b'Sending a message to the server side'
-    sock.sendall(message)
-    sock.settimeout(2)
-    try:
-        while True:
-            data = str(sock.recv(32))
+    print('sending {!r}'.format(message))
 
-            if data:
-                print('Server resopnse:'+data)
-            else:
-                break
-    except(TimeoutError):
-        print('Socket Timeout,ending listening')
+    sent = sock.sendto(message,(server_address,server_port))
+    print('Send {} bytes'.format(sent))
+
+    print('waiting to receive')
+    data,server = sock.recvfrom(4096)
+    print('received {!r}'.format(data))
+
 finally:
     print('closing socket')
     sock.close()

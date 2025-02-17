@@ -1,35 +1,18 @@
-import socket
-import os 
+import socket 
+sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-sock = socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
+server_address = '0.0.0.0'
+server_port = 9001
+print('starting up on port {}'.format(server_port))
 
-server_address = '/tmp/socket_file'
+sock.bind((server_address,server_port))
 
-try:
-    os.unlink(server_address)
-except FileNotFoundError:
-    pass
-print('starting up on {}'.format(server_address))
-
-sock.bind(server_address)
-
-sock.listen(1)
 while True:
-    connection,client_address = sock.accept()
-    try:
-        print('connection from',client_address)
+    print("\n waiting to receive message ...")
+    data,address = sock.recvfrom(4096)
+    print('received {} bytes from {} '.format(len(data),address))
+    print(data)
 
-        while True:
-            data = connection.recv(16)
-            data_str = data.decode('utf-8')
-            print('Recieved ' + data_str)
-            if data:
-                response = 'Processing'+data_str
-
-                connection.sendall(response.encode())
-            else:
-                print('no data from',client_address)
-                break
-    finally:
-        print("Closing current connection")
-        connection.close()
+    if data:
+        sent = sock.sendto(data,address)
+        print('sent {} bytes back to {}'.format(sent,address))
