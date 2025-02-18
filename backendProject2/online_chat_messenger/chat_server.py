@@ -23,7 +23,7 @@
 import socket
 import  time
 
-para_t = 10
+para_t = 100
 
 class user:
     #last_contact はtime.time()入る想定
@@ -61,8 +61,6 @@ class server:
  
     
     def start(self):
-
-
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             print("socket created successfully")
@@ -70,40 +68,46 @@ class server:
             print("socket creation failed", e)
 
         self.sock.bind((self.server_address,self.server_port))
-           
-        while True:
-            client_data,client_address_port = self.sock.recvfrom(4096)
-            client_raw_data = client_data
-            client_data = client_data.decode('utf-8')           
-            if client_data:
-                username_length = int(client_data[0])
-                temp_username = client_data[1:username_length+1]
-                temp_message = client_data[username_length+1:len(client_data)]
-                print("server received from ",temp_username," message: ",temp_message)
+        try:
+            while True:
+                client_data,client_address_port = self.sock.recvfrom(4096)
+                client_raw_data = client_data
+                client_data = client_data.decode('utf-8')           
+                if client_data:
+                    username_length = int(client_data[0])
+                    
+                    if len(client_data) > username_length + 1:                    
+                        temp_username = client_data[1:username_length+1]
+                        temp_message = client_data[username_length+1:len(client_data)]
+                        print("server received from ",temp_username," message: ",temp_message)
+                    else:
+                        print("name is too long")
+                    #user名が登録済みの者かどうか判定する関数bool
+                    #リストになければ新たに登録する
+                    #すでに登録されていれば，最終送信時刻の更新
+                    if self.is_new_user(temp_username):
+                        buf = [temp_message]
+                        new_user = user(client_address_port[0],client_address_port[1],temp_username,buf,time.time())
+                        self.user_list.append(new_user)
 
-                #user名が登録済みの者かどうか判定する関数bool
-                #リストになければ新たに登録する
-                #すでに登録されていれば，最終送信時刻の更新
-                if self.is_new_user(temp_username):
-                    buf = [temp_message]
-                    new_user = user(client_address_port[0],client_address_port[1],temp_username,buf,time.time())
-                    self.user_list.append(new_user)
+                    else:
+                        for u in self.user_list:
+                            if temp_username == u.username:
+                                u.update_user() 
+                                u.message_buffer.append(temp_message) #メッセージの保存
 
-                else:
-                    for u in self.user_list:
-                        if temp_username == u.username:
-                            u.update_user() 
-                            u.message_buffer.append(temp_message) #メッセージの保存
-
-                #ここからメッセージを，接続が確立しているノードに対して送信する
-                #ここでuserの管理してから送信
-                self.manage_user()
-                self.show_client_list()
-                for client in self.user_list:
-                    if client.username != temp_username:
-                        print("server sent data to ",client.username)        
-                        sent = self.sock.sendto(client_raw_data,(client.address,client.port))
-                
+                    #ここからメッセージを，接続が確立しているノードに対して送信する
+                    #ここでuserの管理してから送信
+                    self.manage_user()
+                    self.show_client_list()
+                    for client in self.user_list:
+                        if client.username != temp_username:
+                            print("-----------log---------------------")
+                            print("server sent data to ",client.username)        
+                            print("-----------------------------------")
+                            sent = self.sock.sendto(client_raw_data,(client.address,client.port))
+        finally:
+            self.sock.close()        
 
 
 
@@ -114,11 +118,9 @@ server_port = 9001
 sock = None
 user_list = []
 
-try:
-    my_server = server(server_address,server_port,sock,user_list)
-    my_server.start()
-finally:
-    sock.close()
+my_server = server(server_address,server_port,sock,user_list)
+my_server.start()
+
 
 
 
