@@ -24,8 +24,11 @@ python3 chat_client.py
 
 ## 実際の動作(写真)
 
+システムの開始
 ![image](./img/server_start.png)
 ![image](./img/client_start.png)
+実際のチャットの様子
 ![image](./img/chatting.png)
+チャット中のサーバーの様子
 ![image](./img/server_result.png)
 
