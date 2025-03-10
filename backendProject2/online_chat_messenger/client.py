@@ -1,5 +1,6 @@
 import socket
 import threading
+import asyncio
 #クライアント　送信と受信をマルチスレッドで対応する
 
 class user:
